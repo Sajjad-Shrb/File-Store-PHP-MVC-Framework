@@ -1,0 +1,17 @@
+{
+    "name": "sajjad/file-store",
+    "description": "A space to upload the file and sell it.",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sajjad Shahrabi",
+            "email": "msajjad.shahrabi@gmail.com"
+        }
+    ],
+    "require": {}
+}
