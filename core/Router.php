@@ -14,7 +14,7 @@ class Router
         $this->response = $response;
     }
 
-    public function route($path, $callback)
+    public function routing($path, $callback)
     {
         $callback = [$callback, 'index'];
         $this->routes[$path] = $callback;
@@ -38,6 +38,7 @@ class Router
     public function resolve()
     {
         $path = $this->request->getPath();
+        $method = $this->request->getMethod();
 
         $callback = $this->routes[$path] ?? false;
 
@@ -56,7 +57,8 @@ class Router
             $callback[0] = new $callback[0];
             $controller = $callback[0];
             
-            $controller->action = $callback[1];
+            $controller->path = $path;
+            $controller->method = $method;
 
             return call_user_func($callback, $this->request);
         }
