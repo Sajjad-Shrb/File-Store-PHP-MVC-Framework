@@ -9,7 +9,6 @@ use app\app\models\User;
 
 class UserController extends Controller
 {
-
     public ?array $requests;
 
     public function index(Request $request)
@@ -32,8 +31,8 @@ class UserController extends Controller
 
     public function showRegisterForm()
     {
-        if($id = Application::$app->session->get('id')){
-            Application::$app->response->redirect('/');
+        if ($this->is_login()) {
+            $this->redirect('/');
             return;
         }
 
@@ -53,21 +52,25 @@ class UserController extends Controller
             Application::$app->session->set('name', $data['name']);
             Application::$app->session->set('email', $data['email']);
 
-            Application::$app->response->redirect('/');
+            $this->redirect('/');
         }
     }
 
     public function showLoginForm()
     {
+        if ($this->is_login()) {
+            $this->redirect('/');
+            return;
+        }
+
         return $this->render('login');
     }
 
     public function login()
     {
         $data = $this->requests;
-
-        // var_dump($data);
-        // exit;
+        
+        $data['password'] = sha1($data['password']);
 
         $user = new User();
         $user->loadData($data);
@@ -78,10 +81,9 @@ class UserController extends Controller
             Application::$app->session->set('name', $data['name']);
             Application::$app->session->set('email', $data['email']);
 
-            Application::$app->response->redirect('/');
+            $this->redirect('/');
 
             return 'Login successfully';
-
         } else {
             return $this->render("login", ["message" => "Login Failed!"]);
         }
@@ -89,5 +91,12 @@ class UserController extends Controller
 
     public function logout()
     {
+        Application::$app->session->destroy();
+        $this->redirect('/');
+    }
+
+    public function is_login()
+    {
+        return ($id = Application::$app->session->get('id'));
     }
 }
