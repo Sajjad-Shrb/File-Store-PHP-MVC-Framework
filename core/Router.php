@@ -14,15 +14,21 @@ class Router
         $this->response = $response;
     }
 
-    public function get($path, $callback)
+    public function route($path, $callback)
     {
-        $this->routes["get"][$path] = $callback;
+        $callback = [$callback, 'index'];
+        $this->routes[$path] = $callback;
     }
 
-    public function post($path, $callback)
-    {
-        $this->routes["post"][$path] = $callback;
-    }
+    // public function get($path, $callback)
+    // {
+    //     $this->routes["get"][$path] = $callback;
+    // }
+
+    // public function post($path, $callback)
+    // {
+    //     $this->routes["post"][$path] = $callback;
+    // }
 
     public function renderView($view, $params = [])
     {
@@ -32,9 +38,8 @@ class Router
     public function resolve()
     {
         $path = $this->request->getPath();
-        $method = $this->request->getMethod();
 
-        $callback = $this->routes[$method][$path] ?? false;
+        $callback = $this->routes[$path] ?? false;
 
         if($callback === false) {
             $this->response->setStatusCode(404);
