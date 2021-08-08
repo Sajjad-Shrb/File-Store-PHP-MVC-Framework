@@ -1,12 +1,12 @@
 <?php 
 
-namespace app\models;
+namespace app\app\models;
 
 use app\core\Model;
 
 class File extends Model
 {
-    private $id = null;
+    private ?int $id = null;
     private int $file_id = 0;
     private int $buyer_id = 0;
     private int $seller_id = 0;
