@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\app\controllers\UserController;
+
 class Router
 {
     private Request $request;
@@ -49,11 +51,12 @@ class Router
             return $this->response->renderView();
         }
 
-        elseif (is_string($callback)){
-            return $this->renderView($callback);
-        }
+        // elseif (is_string($callback)){
+        //     return $this->renderView($callback);
+        // }
 
         elseif(is_array($callback)) {
+
             $callback[0] = new $callback[0];
             $controller = $callback[0];
             

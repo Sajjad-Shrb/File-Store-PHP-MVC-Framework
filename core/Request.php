@@ -21,6 +21,8 @@ class Request
 
     public function getBody()
     {
+        $body = null;
+        
         if($this->getMethod() == "get") {
             foreach ($_GET as $key => $value) {
                 $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);

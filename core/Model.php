@@ -2,7 +2,7 @@
 
 namespace app\core;
 
-abstract class Model extends Database
+abstract class Model
 {
     //TODO: name => Label
     //TODO: Error Handling
@@ -11,9 +11,11 @@ abstract class Model extends Database
     //TODO: convert pdo to prepare func
     //TODO: function signitures
 
-    public function pdo(): \PDO
+    public \PDO $pdo;
+
+    public function __construct()
     {
-        return Application::$app->db->pdo;
+        $this->pdo = Application::$app->db->pdo;
     }
 
     public function loadData($data): void
@@ -93,7 +95,7 @@ abstract class Model extends Database
 
         $statement->execute();
 
-        return $statement->fetchObject(static::class) ?? false;
+        return $statement->fetch(\PDO::FETCH_ASSOC) ?? false;
     }
 
     public function findID($where)
@@ -112,5 +114,10 @@ abstract class Model extends Database
         $statement->execute();
 
         return ($statement->fetch(\PDO::FETCH_ASSOC)['ID'] ?? false);
+    }
+
+    public function lastInsertID()
+    {
+        return $this->pdo->lastInsertId();
     }
 }

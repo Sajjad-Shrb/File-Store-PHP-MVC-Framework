@@ -9,6 +9,7 @@ class Response
 
     public function setStatusCode(int $status_code): void
     {
+        http_response_code($status_code);
         $this->status_code = http_response_code($status_code);
     }
 
@@ -29,7 +30,7 @@ class Response
 
     public function renderView()
     {
-        $layout = Application::$app->router->loadLayout("status");
+        $layout = Application::$app->view->loadLayout("error");
         $str = str_replace("{{status_code}}", $this->status_code, $layout);
         return str_replace("{{status_message}}", $this->status_message, $str);
     }

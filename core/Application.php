@@ -2,8 +2,6 @@
 
 namespace app\core;
 
-use app\models\User;
-
 class Application
 {
     public static $root_dir;

@@ -18,8 +18,9 @@ $app->router->routing("/login", UserController::class);
 
 $app->router->routing("/logout", UserController::class);
 
-// $app->router->routing("/register", 'register');
 
+//TODO: implement non-automatic routing
+// $app->router->routing("/register", 'register');
 
 // $app->router->get("/register", [SiteController::class, "register"]);
 // $app->router->post("/register", [SiteController::class, "register"]);
