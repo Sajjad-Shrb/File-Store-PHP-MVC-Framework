@@ -28,10 +28,10 @@
         ?>
 
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input name="Email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input name="Password" type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
+        <label for="email" class="sr-only">Email address</label>
+        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email">
+        <label for="password" class="sr-only">Password</label>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
