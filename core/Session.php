@@ -24,6 +24,11 @@ class Session
         unset($_SESSION[$key]);
     }
 
+    public function destroy()
+    {
+        session_destroy();
+    }
+
     public function session_exist($key)
     {
         return isset($_SESSION[$key]);
