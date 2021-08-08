@@ -1,13 +1,13 @@
 <?php 
 
-namespace app\controllers;
+namespace app\app\controllers;
 
 use app\core\Controller;
 
-class UserController extends Controller
+class HomeController extends Controller
 {   
     public function index()
     {
-
+        return $this->render('home');
     }
 }
