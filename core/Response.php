@@ -28,7 +28,7 @@ class Response
         return $this->status_message;
     }
 
-    public function renderView()
+    public function render()
     {
         $layout = Application::$app->view->loadLayout("error");
         $str = str_replace("{{status_code}}", $this->status_code, $layout);
