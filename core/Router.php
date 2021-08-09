@@ -19,6 +19,9 @@ class Router
     public function routing($path, $callback)
     {
         $callback = [$callback, 'index'];
+
+        $path = rtrim($path, '/');
+
         $this->routes[$path] = $callback;
     }
 
@@ -32,11 +35,6 @@ class Router
     //     $this->routes["post"][$path] = $callback;
     // }
 
-    public function renderView($view, $params = [])
-    {
-        return Application::$app->view->renderView($view, $params);
-    }
-
     public function resolve()
     {
         $path = $this->request->getPath();
@@ -48,7 +46,7 @@ class Router
             $this->response->setStatusCode(404);
             $this->response->setStatusMessage("Page Not Found!");
 
-            return $this->response->renderView();
+            return $this->response->render();
         }
 
         // elseif (is_string($callback)){
