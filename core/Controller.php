@@ -16,9 +16,14 @@ class Controller
         $this->layout = $layout;
     }
     
+    public function loadView($view, $params = []): string
+    {
+        return Application::$app->view->loadView($view, $params);
+    }
+
     public function render($view, $params = []): string
     {
-        return Application::$app->router->renderView($view, $params);
+        return Application::$app->view->render($view, $params);
     }
 
     public function redirect($url)
