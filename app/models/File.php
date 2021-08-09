@@ -6,25 +6,26 @@ use app\core\Model;
 
 class File extends Model
 {
-    private ?int $id = null;
-    private int $user_id = 0;
-    private string $name = '';
-    private string $type = '';
-    private float $size = 0;
-    private string $path = '';
-    private string $url = '';
-    private float $price = 0;
-    private int $downloads = 0;
-    private bool $is_verified = false;
-    private bool $is_private = false;
+    protected ?int $id = null;
+    protected string $username = '';
+    protected string $name = '';
+    protected string $type = '';
+    protected string $extension = '';
+    protected float $size = 0;
+    protected string $path = '';
+    protected string $url = '';
+    protected float $price = 0;
+    protected int $downloads = 0;
+    protected int $is_verified = 0;
+    protected int $is_private = 0;
 
     public static function tableName(): string
     {
-        return 'File';
+        return 'Files';
     }
 
     public function attributes(): array
     {
-        return ['id', 'user_id', 'name', 'type', 'size', 'path', 'url', 'price', 'downloads', 'is_verified', 'is_private'];
+        return ['id', 'username', 'name', 'type', 'extension', 'size', 'path', 'url', 'price', 'downloads', 'is_verified', 'is_private'];
     }
 }
