@@ -1,6 +1,7 @@
 <?php
 
 use app\app\controllers\HomeController;
+use app\app\controllers\UploadController;
 use app\app\controllers\UserController;
 use app\core\Application;
 
@@ -12,12 +13,14 @@ $app = new Application(dirname(__DIR__));
 
 $app->router->routing("/", HomeController::class);
 $app->router->routing("/home", HomeController::class);
+$app->router->routing("/home/index", HomeController::class);
 
-$app->router->routing("/register", UserController::class);
-$app->router->routing("/login", UserController::class);
+$app->router->routing("/user/register", UserController::class);
+$app->router->routing("/user/login", UserController::class);
 
-$app->router->routing("/logout", UserController::class);
+$app->router->routing("/user/logout", UserController::class);
 
+$app->router->routing("/upload", UploadController::class);
 
 //TODO: implement non-automatic routing
 // $app->router->routing("/register", 'register');
