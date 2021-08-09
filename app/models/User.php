@@ -27,9 +27,15 @@ class User extends Model
         return ['id', 'name', 'username', 'email', 'type', 'credit', 'is_active', 'num_files', 'password'];
     }
 
-    public function add(): bool
+    public function insert(): bool
     {
         $this->password = sha1($this->password);
-        return parent::add();
+        return parent::insert();
+    }
+
+    //TODO: where is_login() ?
+    public function is_login(): bool
+    {
+        return ($id = Application::$app->session->get('id'));
     }
 }
