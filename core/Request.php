@@ -7,6 +7,8 @@ class Request
     public function getPath(): string
     {
         $path = $_SERVER["REQUEST_URI"] ?? '/';
+        
+        $path = rtrim($path, '/');
 
         if ($pos = strpos($path, '?'))
             return substr($path, 0, $pos);
