@@ -15,12 +15,17 @@ $app->router->routing("/", HomeController::class);
 $app->router->routing("/home", HomeController::class);
 $app->router->routing("/home/index", HomeController::class);
 
+$app->router->routing("/register", UserController::class);
+$app->router->routing("/login", UserController::class);
+$app->router->routing("/logout", UserController::class);
+
 $app->router->routing("/user/register", UserController::class);
 $app->router->routing("/user/login", UserController::class);
-
 $app->router->routing("/user/logout", UserController::class);
 
 $app->router->routing("/upload", UploadController::class);
+
+$app->router->routing("/admin", UploadController::class);
 
 //TODO: implement non-automatic routing
 // $app->router->routing("/register", 'register');

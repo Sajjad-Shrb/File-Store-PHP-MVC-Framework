@@ -15,15 +15,39 @@ class UserController extends Controller
     {
         $this->requests = $request->getBody();
 
-        if ($this->path == '/user/register' && $this->method == 'get')
+        if (
+            (($this->path == '/user/register') ||
+            ($this->path == '/register')) &&
+            ($this->method == 'get')
+        )
             $this->action = 'showRegisterForm';
-        elseif ($this->path == '/user/register' && $this->method == 'post')
+
+        elseif (
+            (($this->path == '/user/register') ||
+            ($this->path == '/register')) &&
+            ($this->method == 'post')
+        )
             $this->action = 'register';
-        elseif ($this->path == '/user/login' && $this->method == 'get')
+
+        elseif (
+            (($this->path == '/user/login') ||
+            ($this->path == '/login')) &&
+            ($this->method == 'get')
+        )
             $this->action = 'showLoginForm';
-        elseif ($this->path == '/user/login' && $this->method == 'post')
+            
+        elseif (
+            (($this->path == '/user/login') ||
+            ($this->path == '/login')) &&
+            ($this->method == 'post')
+        )
             $this->action = 'login';
-        elseif ($this->path == '/user/logout' && $this->method == 'get')
+        
+        elseif (
+            (($this->path == '/user/logout') ||
+            ($this->path == '/logout')) &&
+            ($this->method == 'get')
+        )
             $this->action = 'logout';
 
         return call_user_func([__CLASS__, $this->action]);
