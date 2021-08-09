@@ -21,7 +21,7 @@ class View
         return ob_get_clean();
     }
 
-    public function renderView($view, array $params)
+    public function render($view, array $params)
     {
         $layout = Application::$app->layout;
         
