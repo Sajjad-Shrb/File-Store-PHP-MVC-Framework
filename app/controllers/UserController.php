@@ -15,15 +15,15 @@ class UserController extends Controller
     {
         $this->requests = $request->getBody();
 
-        if ($this->path == '/register' && $this->method == 'get')
+        if ($this->path == '/user/register' && $this->method == 'get')
             $this->action = 'showRegisterForm';
-        elseif ($this->path == '/register' && $this->method == 'post')
+        elseif ($this->path == '/user/register' && $this->method == 'post')
             $this->action = 'register';
-        elseif ($this->path == '/login' && $this->method == 'get')
+        elseif ($this->path == '/user/login' && $this->method == 'get')
             $this->action = 'showLoginForm';
-        elseif ($this->path == '/login' && $this->method == 'post')
+        elseif ($this->path == '/user/login' && $this->method == 'post')
             $this->action = 'login';
-        elseif ($this->path == '/logout' && $this->method == 'get')
+        elseif ($this->path == '/user/logout' && $this->method == 'get')
             $this->action = 'logout';
 
         return call_user_func([__CLASS__, $this->action]);
@@ -43,10 +43,12 @@ class UserController extends Controller
     {
         $data = $this->requests;
 
+        $data['type'] = 3;
+
         $user = new User();
         $user->loadData($data);
 
-        if ($user->add()) {
+        if ($user->insert()) {
             Application::$app->session->set('id', $user->lastInsertID());
             Application::$app->session->set('username', $data['username']);
             Application::$app->session->set('name', $data['name']);
@@ -97,6 +99,6 @@ class UserController extends Controller
 
     public function is_login()
     {
-        return ($id = Application::$app->session->get('id'));
+        return Application::$app->user->is_login();
     }
 }
