@@ -6,17 +6,17 @@ use app\core\Model;
 
 class File extends Model
 {
-    private ?int $id = null;
-    private int $file_id = 0;
-    private int $buyer_id = 0;
-    private int $seller_id = 0;
+    protected ?int $id = null;
+    protected int $file_id = 0;
+    protected int $buyer_id = 0;
+    protected int $seller_id = 0;
 
     //TODO: date type
-    private string $date;
+    protected string $date;
 
     public static function tableName(): string
     {
-        return 'File';
+        return 'Trades';
     }
 
     public function attributes(): array
