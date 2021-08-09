@@ -39,7 +39,7 @@ abstract class Model
         return 'id';
     }
 
-    public function add(): bool
+    public function insert(): bool
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
