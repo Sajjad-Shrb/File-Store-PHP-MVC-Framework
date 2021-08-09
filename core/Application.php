@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\app\models\User;
+
 class Application
 {
     public static $root_dir;
@@ -15,6 +17,7 @@ class Application
     public String $layout = 'main';
     public View $view;
     public Session $session;
+    public ?User $user = null;
 
     public function __construct($root_dir)
     {
@@ -28,7 +31,7 @@ class Application
         $this->router = new Router($this->request, $this->response);
         $this->session = new Session();
         $this->view = new View();
-
+        $this->user = new User();
     }
 
     public function run() {
