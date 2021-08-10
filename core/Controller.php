@@ -11,6 +11,11 @@ class Controller
     public string $path = '';
     public string $method = '';
 
+    public function __construct()
+    {
+        Application::$app->controller = $this;
+    }
+
     public function setLayout($layout): void
     {
         $this->layout = $layout;
