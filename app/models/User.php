@@ -36,6 +36,6 @@ class User extends Model
     //TODO: where is_login() ?
     public function is_login(): bool
     {
-        return ($id = Application::$app->session->get('id'));
+        return Application::$app->session->get('id');
     }
 }
