@@ -7,7 +7,7 @@ use app\core\Model;
 class File extends Model
 {
     protected ?int $id = null;
-    protected string $username = '';
+    protected ?string $username = null;
     protected string $name = '';
     protected string $type = '';
     protected string $extension = '';
