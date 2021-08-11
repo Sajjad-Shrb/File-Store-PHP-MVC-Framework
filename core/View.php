@@ -12,10 +12,9 @@ class View
     }
     
     public function loadView($view, $params)
-    {
-        foreach ($params as $key => $value)
-            $$key = $value;
-
+    {       
+        extract($params);
+        
         ob_start();
         include Application::$root_dir."/app/views/$view.php";
         return ob_get_clean();
@@ -23,15 +22,15 @@ class View
 
     public function render($view, array $params)
     {
+
         $layout = Application::$app->layout;
         
         if (Application::$app->controller)
-        $layout = Application::$app->controller->layout;
-        
+            $layout = Application::$app->controller->layout;
+
+        $view = $this->loadView($view, $params);       
         $layout = $this->loadLayout($layout);
         
-        $view = $this->loadView($view, $params);       
-
         return str_replace('{{content}}', $view, $layout);
     }
 }
