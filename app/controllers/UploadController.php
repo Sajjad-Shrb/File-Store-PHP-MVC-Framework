@@ -33,7 +33,9 @@ class UploadController extends Controller
     public function addFileToServer(File $file)
     {
         if (!empty($_FILES['uploaded_file'])) {
-            $username = Application::$app->session->get('username');
+            $username = Application::$app->session->get('username') ?? 'guest';
+            if($username === false)
+                $username = null;
             $filename = $_FILES['uploaded_file']['name'];
             
             $tmpname = $_FILES['uploaded_file']['tmp_name'];
@@ -49,6 +51,8 @@ class UploadController extends Controller
                 $dirpath = "uploads/$username/";
             }
 
+            
+
             if(!is_dir($dirpath))
                 mkdir($dirpath, 0777, true);
             
@@ -58,6 +62,7 @@ class UploadController extends Controller
             
             $i = 1;
             while(file_exists($filepath)) {
+                $filename = $just_name . "_$i" . '.' . $file_extension;
                 $filepath = Application::$root_dir . '/public/' . $dirpath . $just_name . "_$i" . '.' . $file_extension;
                 $i++;
             }
