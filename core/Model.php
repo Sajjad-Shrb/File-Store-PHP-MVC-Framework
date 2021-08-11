@@ -58,6 +58,40 @@ abstract class Model
         return true;
     }
 
+    public function update($fields, $where): bool
+    {
+        $tableName = $this->tableName();
+
+        $set = array();
+        $wheres = array();
+        foreach ($fields as $key => $value) {
+            $set[] = $key . " = " . "'$value'";
+        }
+
+        foreach ($where as $key => $value) {
+            $wheres[] = $key . " = " . "$value";
+        }
+
+        $statement = $this->pdo->prepare("UPDATE $tableName " . "SET " . implode(", ", $set) . " WHERE ". implode(", ", $wheres) . ";");
+
+        return $statement->execute();
+    }
+
+    public function delete($where): bool
+    {
+        $tableName = $this->tableName();
+
+        $wheres = array();
+
+        foreach ($where as $key => $value) {
+            $wheres[] = $key . " = " . "$value";
+        }
+
+        $statement = $this->pdo->prepare("DELETE FROM $tableName " . "WHERE ". implode(", ", $wheres) . ";");
+
+        return $statement->execute();
+    }
+
     //TODO: Hamahangi pdo methods
     //TODO: tartibe tavabe
     public function findAll()
@@ -72,14 +106,14 @@ abstract class Model
         return $result;
     }
 
-    public function count(): mixed
+    public function count(): int
     {
         $tableName = $this->tableName();
 
         $sql = "SELECT COUNT(*) FROM $tableName;";
         $stm = $this->pdo->query($sql);
 
-        return $stm->fetchColumn();
+        return intval($stm->fetchColumn());
     }
 
     public function findOne($where)
