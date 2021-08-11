@@ -3,6 +3,7 @@
 namespace app\app\controllers;
 
 use app\app\models\User;
+use app\app\models\Config;
 use app\core\Controller;
 use app\core\Request;
 
@@ -24,6 +25,10 @@ class AdminController extends Controller
             $this->action = 'showManageUsersPage';
         elseif ($this->path == '/admin/users' && $this->method == 'post')
             $this->action = 'update';
+        elseif ($this->path == '/admin/setting' && $this->method == 'get')
+            $this->action = 'showSettingPage';
+        elseif ($this->path == '/admin/setting' && $this->method == 'post')
+            $this->action = 'config';
             
         return call_user_func([__CLASS__, $this->action]);
     }
@@ -35,7 +40,13 @@ class AdminController extends Controller
 
     public function showManageUsersPage()
     {       
-        return $this->render('admin/users');
+        $user = new User;
+        $params = [
+            'user' => $user,
+            'users' => $user->findAll(),
+            'user_count' => $user->count()
+        ];
+        return $this->render('admin/users', $params);
     }
 
     //Active, Deactive and ChangeAccessLevel
@@ -43,8 +54,6 @@ class AdminController extends Controller
     {
         $data = $this->requests;
 
-        var_dump($data);
-        exit;
         $where = [
             'id' => intval($data['id'])
         ];
@@ -52,6 +61,38 @@ class AdminController extends Controller
 
         $user = new User();
 
-        return $user->update($data, $where);
+        $user->update($data, $where);
+        return $this->showManageUsersPage();
+    }
+
+    public function showSettingPage()
+    {
+        $config = new Config;
+        $params = [
+            'rows' => $config->findAll(),
+            'rows_count' => $config->count()
+        ];
+        return $this->render('admin/setting', $params);
+    }
+
+    public function config()
+    {
+        /**
+         * //TODO: Generate Invalid Data request (key_name == allowed_file_types)
+         */
+        $data = $this->requests; 
+
+        $where = [
+            'key_name' => "\"" . $data['key_name'] . "\""
+        ];
+
+        unset($data['key_name']);
+        
+        $data['value'] = json_encode($data['value']);
+
+        $config = new Config();
+
+        $config->update($data, $where);
+        return $this->showSettingPage();
     }
 }
