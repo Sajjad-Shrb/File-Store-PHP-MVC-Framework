@@ -1,6 +1,7 @@
 <?php
 
 use app\app\controllers\AdminController;
+use app\app\controllers\FileController;
 use app\app\controllers\HomeController;
 use app\app\controllers\UploadController;
 use app\app\controllers\UserController;
@@ -28,6 +29,10 @@ $app->router->routing("/upload", UploadController::class);
 $app->router->routing("/admin", AdminController::class);
 $app->router->routing("/admin/users", AdminController::class);
 $app->router->routing("/admin/update", AdminController::class);
+$app->router->routing("/admin/setting", AdminController::class);
+
+$app->router->routing("/admin/files", FileController::class);
+
 
 //TODO: implement non-automatic routing
 // $app->router->routing("/register", 'register');
