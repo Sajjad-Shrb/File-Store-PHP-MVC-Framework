@@ -1,7 +1,3 @@
-<?php
-
-use app\app\models\User; ?>
-
 <div>
 	<table class="table table-striped">
 		<thead>
@@ -19,13 +15,6 @@ use app\app\models\User; ?>
 			</tr>
 		</thead>
 		<tbody>
-
-			<?php
-			$user = new User;
-			$users = $user->findAll();
-			$user_count = $user->count();
-			?>
-
 
 			<?php for ($i = 0; $i < $user_count; $i++) { ?>
 				<tr>
@@ -93,8 +82,7 @@ use app\app\models\User; ?>
 					</form>
 				</tr>
 			<?php } ?>
-			<tr>
-			</tr>
+
 		</tbody>
 	</table>
 </div>
