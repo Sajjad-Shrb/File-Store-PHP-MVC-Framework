@@ -65,7 +65,7 @@ abstract class Model
         $set = array();
         $wheres = array();
         foreach ($fields as $key => $value) {
-            $set[] = $key . " = " . "'$value'";
+            $set[] = $key . " = " . "$value";
         }
 
         foreach ($where as $key => $value) {

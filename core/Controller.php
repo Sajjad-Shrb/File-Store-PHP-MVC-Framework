@@ -13,7 +13,14 @@ class Controller
 
     public function __construct()
     {
+        ///////TODO: checkMethod Call//////
+
         Application::$app->controller = $this;
+    }
+
+    public function checkMethod()
+    {
+        ///////TODO: checkMethod Implement//////
     }
 
     public function setLayout($layout): void
