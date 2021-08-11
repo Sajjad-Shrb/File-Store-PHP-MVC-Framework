@@ -26,6 +26,8 @@ $app->router->routing("/user/logout", UserController::class);
 $app->router->routing("/upload", UploadController::class);
 
 $app->router->routing("/admin", AdminController::class);
+$app->router->routing("/admin/users", AdminController::class);
+$app->router->routing("/admin/update", AdminController::class);
 
 //TODO: implement non-automatic routing
 // $app->router->routing("/register", 'register');
