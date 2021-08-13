@@ -7,6 +7,7 @@ class Controller
     //TODO: define Other Layouts
     //TODO: middle wears
     public string $layout = 'main';
+    public string $input = '';
     public string $action = '';
     public string $path = '';
     public string $method = '';
