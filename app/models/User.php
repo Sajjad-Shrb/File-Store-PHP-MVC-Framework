@@ -33,6 +33,19 @@ class User extends Model
         return parent::insert();
     }
 
+    //TODO: convert findAll method to findAll($columns)
+    public function findUsername()
+    {
+        $tableName = static::tableName();
+
+        $sql = "SELECT username From $tableName";
+        $stm = $this->pdo->query($sql);
+
+        $result = $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
     //TODO: where is_login() ?
     public function is_login(): bool
     {
