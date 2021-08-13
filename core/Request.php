@@ -13,7 +13,7 @@ class Request
         if ($pos = strpos($path, '?'))
             return substr($path, 0, $pos);
         else
-            return $path;
+            return strtolower($path);
     }
 
     public function getMethod(): string
