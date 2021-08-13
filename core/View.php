@@ -13,6 +13,7 @@ class View
     
     public function loadView($view, $params)
     {       
+        $view = strtolower($view);
         extract($params);
         
         ob_start();
