@@ -7,7 +7,7 @@ use app\core\Controller;
 use app\core\Request;
 use app\app\models\User;
 
-class UserController extends Controller
+class   UserController extends Controller
 {
     public ?array $requests;
 
@@ -17,40 +17,47 @@ class UserController extends Controller
 
         if (
             (($this->path == '/user/register') ||
-            ($this->path == '/register')) &&
+                ($this->path == '/register')) &&
             ($this->method == 'get')
         )
             $this->action = 'showRegisterForm';
 
         elseif (
             (($this->path == '/user/register') ||
-            ($this->path == '/register')) &&
+                ($this->path == '/register')) &&
             ($this->method == 'post')
         )
             $this->action = 'register';
 
         elseif (
             (($this->path == '/user/login') ||
-            ($this->path == '/login')) &&
+                ($this->path == '/login')) &&
             ($this->method == 'get')
         )
             $this->action = 'showLoginForm';
-            
+
         elseif (
             (($this->path == '/user/login') ||
-            ($this->path == '/login')) &&
+                ($this->path == '/login')) &&
             ($this->method == 'post')
         )
             $this->action = 'login';
-        
+
         elseif (
             (($this->path == '/user/logout') ||
-            ($this->path == '/logout')) &&
+                ($this->path == '/logout')) &&
             ($this->method == 'get')
         )
             $this->action = 'logout';
+        elseif (
+            preg_match("/(\/user\/)\w+/", $this->path)
+        ) {
+            $this->input = substr($this->path, strrpos($this->path, '/') + 1);
 
-        return call_user_func([__CLASS__, $this->action]);
+            $this->action = 'showPublicUserProfile';
+        }
+
+        return call_user_func([__CLASS__, $this->action], $this->path);
     }
 
     public function showRegisterForm()
@@ -95,7 +102,7 @@ class UserController extends Controller
     public function login()
     {
         $data = $this->requests;
-        
+
         $data['password'] = sha1($data['password']);
 
         $user = new User();
@@ -124,5 +131,33 @@ class UserController extends Controller
     public function is_login()
     {
         return Application::$app->user->is_login();
+    }
+
+    public function provideUserProfileRoutes()
+    {
+        $user = new User;
+
+        $users = $user->findUsername();
+
+        for ($i = 0; $i < $user->count(); $i++) {
+            $username = $users[$i]['username'];
+            $username = strtolower($username);
+            Application::$app->router->routing("/user/$username", self::class);
+        }
+    }
+
+    public function showPublicUserProfile($username)
+    {
+        $user = new User;
+        $where = [
+            'username' => substr($username, strrpos($username, '/') + 1)
+        ];
+        $user = $user->findOne($where);
+
+        $params = [
+            'user' => $user
+        ];
+
+        return $this->render("public-profile", $params);
     }
 }
