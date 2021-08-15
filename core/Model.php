@@ -65,11 +65,11 @@ abstract class Model
         $set = array();
         $wheres = array();
         foreach ($fields as $key => $value) {
-            $set[] = $key . " = " . "$value";
+            $set[] = $key . " = " . "'$value'";
         }
 
         foreach ($where as $key => $value) {
-            $wheres[] = $key . " = " . "$value";
+            $wheres[] = $key . " = " . "'$value'";
         }
 
         $statement = $this->pdo->prepare("UPDATE $tableName " . "SET " . implode(", ", $set) . " WHERE ". implode(", ", $wheres) . ";");
@@ -129,7 +129,7 @@ abstract class Model
 
         $statement->execute();
 
-        return $statement->fetch(\PDO::FETCH_ASSOC) ?? false;
+        return $statement->fetchAll(\PDO::FETCH_ASSOC) ?? false;
     }
 
     public function findID($where)
