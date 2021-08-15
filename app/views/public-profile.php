@@ -1,11 +1,3 @@
-<?php
-
-// echo "<pre>";
-// var_dump($user);
-// echo "</pre>";
-// exit;
-?>
-
 <div id="user-profile-2" class="user-profile">
 	<div class="tabbable">
 
