@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace app\app\models;
 
@@ -16,12 +16,12 @@ class User extends Model
     public bool $is_active = true;
     public int $num_files = 0;
     public string $password = '';
-    
+
     public static function tableName(): string
     {
         return 'Users';
     }
-    
+
     public function attributes(): array
     {
         return ['id', 'name', 'username', 'email', 'type', 'credit', 'is_active', 'num_files', 'password'];
@@ -34,7 +34,7 @@ class User extends Model
     }
 
     //TODO: convert findAll method to findAll($columns)
-    public function findUsername()
+    public function findAllbyUsername()
     {
         $tableName = static::tableName();
 
