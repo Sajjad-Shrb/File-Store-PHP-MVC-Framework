@@ -2,6 +2,7 @@
 
 namespace app\app\controllers;
 
+use app\app\models\File;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
@@ -49,6 +50,26 @@ class   UserController extends Controller
             ($this->method == 'get')
         )
             $this->action = 'logout';
+
+        elseif (
+            (($this->path == '/user') ||
+                ($this->path == '/user/dashboard')) &&
+            ($this->method == 'get')
+        )
+            $this->action = 'showUserDashboardPage';
+
+        elseif ((($this->path == '/user/profile') && ($this->method == 'get')))
+            $this->action = 'showProfilePage';
+
+        elseif ((($this->path == '/user/profile') && ($this->method == 'post')))
+            $this->action = 'editProfile';
+
+        elseif ((($this->path == '/user/files') && ($this->method == 'get')))
+            $this->action = 'showFilesPage';
+
+        elseif ((($this->path == '/user/trades') && ($this->method == 'get')))
+            $this->action = 'showTradesPage';
+
         elseif (
             preg_match("/(\/user\/)\w+/", $this->path)
         ) {
@@ -80,10 +101,13 @@ class   UserController extends Controller
         $user->loadData($data);
 
         if ($user->insert()) {
-            Application::$app->session->set('id', $user->lastInsertID());
-            Application::$app->session->set('username', $data['username']);
-            Application::$app->session->set('name', $data['name']);
-            Application::$app->session->set('email', $data['email']);
+            $this->setSession('id', $user->lastInsertID());
+            $this->setSession('username', $data['username']);
+            $this->setSession('name', $data['name']);
+            $this->setSession('email', $data['email']);
+            $this->setSession('num_files', $data['num_files']);
+            $this->setSession('type', $data['type']);
+            $this->setSession('credit', $data['credit']);
 
             $this->redirect('/');
         }
@@ -102,17 +126,19 @@ class   UserController extends Controller
     public function login()
     {
         $data = $this->requests;
-
         $data['password'] = sha1($data['password']);
 
         $user = new User();
         $user->loadData($data);
 
         if ($data = $user->findOne($data)) {
-            Application::$app->session->set('id', $data['id']);
-            Application::$app->session->set('username', $data['username']);
-            Application::$app->session->set('name', $data['name']);
-            Application::$app->session->set('email', $data['email']);
+            $this->setSession('id', $data[0]['id']);
+            $this->setSession('username', $data[0]['username']);
+            $this->setSession('name', $data[0]['name']);
+            $this->setSession('email', $data[0]['email']);
+            $this->setSession('num_files', $data[0]['num_files']);
+            $this->setSession('type', $data[0]['type']);
+            $this->setSession('credit', $data[0]['credit']);
 
             $this->redirect('/');
 
@@ -137,7 +163,7 @@ class   UserController extends Controller
     {
         $user = new User;
 
-        $users = $user->findUsername();
+        $users = $user->findAllbyUsername();
 
         for ($i = 0; $i < $user->count(); $i++) {
             $username = $users[$i]['username'];
@@ -155,9 +181,87 @@ class   UserController extends Controller
         $user = $user->findOne($where);
 
         $params = [
-            'user' => $user
+            'user' => $user[0]
         ];
 
         return $this->render("public-profile", $params);
+    }
+
+    public function showUserDashboardPage()
+    {
+        $this->setLayout('user');
+
+        $params = [
+            'id' => $this->getSession('id'),
+            'username' => $this->getSession('username'),
+            'name' => $this->getSession('name'),
+            'email' => $this->getSession('email'),
+            'num_files' => $this->getSession('num_files'),
+            'type' => $this->getSession('type'),
+            'credit' => $this->getSession('credit'),
+        ];
+
+        return $this->render('user/dashboard', $params);
+    }
+
+    public function showProfilePage()
+    {
+        $this->setLayout('user');
+
+        $username = Application::$app->session->get('username');
+
+
+        $user = (new User)->findOne([
+            'username' => $username
+        ]);
+
+        $params = [
+            'user' => $user[0]
+        ];
+        return $this->render('user/profile', $params);
+    }
+
+    public function editProfile()
+    {
+        $this->setLayout('user');
+
+        $data = $this->requests;
+
+        $data['password'] = sha1($data['password']);
+
+        $previousUsername = Application::$app->session->get('username');
+
+        $where = [
+            'username' => $previousUsername
+        ];
+
+        $user = new User();
+
+        $user->update($data, $where);
+        Application::$app->session->set('name', $data['name']);
+        Application::$app->session->set('username', $data['username']);
+        Application::$app->session->set('email', $data['email']);
+        Application::$app->session->set('password', $data['password']);
+
+        return $this->showProfilePage();
+    }
+
+    public function showFilesPage()
+    {
+        $this->setLayout('user');
+
+        $current_user = $this->getSession('username');
+
+        $file = new File;
+        $file = $file->findOne([
+            'username' => $current_user
+        ]);
+
+        $params = [
+            'file' => $file,
+            'file_count' => count($file)
+        ];
+
+        return $this->render('user/files', $params);
     }
 }
