@@ -39,6 +39,16 @@ class Controller
         return Application::$app->view->render($view, $params);
     }
 
+    public function setSession($key, $value)
+    {
+        Application::$app->session->set($key, $value);
+    }
+
+    public function getSession($key)
+    {
+        return Application::$app->session->get($key);
+    }
+
     public function redirect($url)
     {
         return Application::$app->response->redirect($url);
