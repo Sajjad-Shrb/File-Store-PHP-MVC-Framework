@@ -24,6 +24,12 @@ $app->router->routing("/user/register", UserController::class);
 $app->router->routing("/user/login", UserController::class);
 $app->router->routing("/user/logout", UserController::class);
 
+$app->router->routing("/user", UserController::class);
+$app->router->routing("/user/dashboard", UserController::class);
+$app->router->routing("/user/profile", UserController::class);
+$app->router->routing("/user/files", UserController::class);
+
+
 (new UserController) -> provideUserProfileRoutes();
 
 $app->router->routing("/upload", UploadController::class);
