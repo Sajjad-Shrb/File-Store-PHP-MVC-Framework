@@ -98,7 +98,7 @@ abstract class Model
         return $statement->execute();
     }
 
-    public function findAll()
+    public function selectAll()
     {
         $tableName = static::tableName();
 
@@ -120,7 +120,7 @@ abstract class Model
         return intval($stm->fetchColumn());
     }
 
-    public function findOne($where)
+    public function selectAllWhere($where)
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);
@@ -134,24 +134,6 @@ abstract class Model
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC) ?? false;
-    }
-
-    public function findID($where)
-    {
-        $tableName = static::tableName();
-        $attributes = array_keys($where);
-
-        $sql = implode(" AND ", array_map(fn ($attr) => "$attr = :$attr", $attributes));
-
-        $statement = $this->pdo->prepare("SELECT ID FROM $tableName WHERE $sql");
-
-        foreach ($where as $key => $item) {
-            $statement->bindValue(":$key", $item);
-        }
-
-        $statement->execute();
-
-        return ($statement->fetch(\PDO::FETCH_ASSOC)['ID'] ?? false);
     }
 
     public function lastInsertID()
