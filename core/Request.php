@@ -18,7 +18,31 @@ class Request
 
     public function getMethod(): string
     {
-        return strtolower($_SERVER["REQUEST_METHOD"]);
+        $method = strtolower($_SERVER["REQUEST_METHOD"]);
+
+        if($method == 'get')
+            return $method;
+
+        else {
+            if(!isset($_POST['_method']))
+                return 'post';
+            
+            else {
+                switch ($_POST['_method']) {
+                    case 'put':
+                        return 'put';
+                        break;
+                    
+                    case 'delete':
+                        return 'delete';
+                        break;
+
+                    default:
+                        return false;
+                        break;
+                }
+            }
+        }
     }
 
     public function getBody()
@@ -31,7 +55,10 @@ class Request
             }
         }
 
-        if($this->getMethod() == "post") {
+        if( $this->getMethod() == "post" || 
+            $this->getMethod() == "put" || 
+            $this->getMethod() == "delete"
+        ) {
             foreach ($_POST as $key => $value) {
                 $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
