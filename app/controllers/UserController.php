@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $user = new User;
 
-        $users = $user->findAllbyUsername();
+        $users = $user->selectUserName();
 
         for ($i = 0; $i < $user->count(); $i++) {
             $username = $users[$i]['username'];
@@ -38,7 +38,7 @@ class UserController extends Controller
         $where = [
             'username' => substr($username, strrpos($username, '/') + 1)
         ];
-        $user = $user->findOne($where);
+        $user = $user->selectAllWhere($where);
 
         $params = [
             'user' => $user[0]
@@ -71,7 +71,7 @@ class UserController extends Controller
         $username = Application::$app->session->get('username');
 
 
-        $user = (new User)->findOne([
+        $user = (new User)->selectAllWhere([
             'username' => $username
         ]);
 
@@ -113,7 +113,7 @@ class UserController extends Controller
         $current_user = $this->getSession('username');
 
         $file = new File;
-        $file = $file->findOne([
+        $file = $file->selectAllWhere([
             'username' => $current_user
         ]);
 
