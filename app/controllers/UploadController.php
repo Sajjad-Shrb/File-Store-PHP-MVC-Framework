@@ -6,25 +6,9 @@ use app\app\models\File;
 use app\app\models\User;
 use app\core\Application;
 use app\core\Controller;
-use app\core\Database;
-use app\core\Request;
 
 class UploadController extends Controller
 {
-    public ?array $requests;
-
-    public function index(Request $request)
-    {
-        $this->requests = $request->getBody();
-
-        if ($this->path == '/upload' && $this->method == 'get')
-            $this->action = 'showUploadPage';
-        elseif ($this->path == '/upload' && $this->method == 'post')
-            $this->action = 'upload';
-
-        return call_user_func([__CLASS__, $this->action]);
-    }
-    
     public function showUploadPage()
     {
         return $this->render('upload');
@@ -56,14 +40,14 @@ class UploadController extends Controller
             if(!is_dir($dirpath))
                 mkdir($dirpath, 0777, true);
             
-            $filepath = Application::$root_dir . '/public/' . $dirpath . $filename;
+            $filepath = Application::$ROOT_DIR . '/public/' . $dirpath . $filename;
 
             $just_name = explode('.', $filename)[0];
             
             $i = 1;
             while(file_exists($filepath)) {
                 $filename = $just_name . "_$i" . '.' . $file_extension;
-                $filepath = Application::$root_dir . '/public/' . $dirpath . $just_name . "_$i" . '.' . $file_extension;
+                $filepath = Application::$ROOT_DIR . '/public/' . $dirpath . $just_name . "_$i" . '.' . $file_extension;
                 $i++;
             }
 
