@@ -38,7 +38,7 @@ class AdminController extends Controller
         return $this->render('admin/users', $params);
     }
 
-    //Active, Deactive and ChangeAccessLevel
+    //Active, Deactive and ChangeAccessLevel of Users
     public function updateUsers(Request $request)
     {
         $data = $request->getBody();
@@ -68,9 +68,6 @@ class AdminController extends Controller
 
     public function config(Request $request)
     {
-        /**
-         * //TODO: Generate Invalid Data request (key_name == allowed_file_types)
-         */
         $data = $request->getBody();
 
         $where = [
@@ -81,9 +78,6 @@ class AdminController extends Controller
         unset($data['_method']);
         
         $data['value'] = json_encode($data['value']);
-
-        echo($data['value']);
-        // exit;
 
         $config = new Config();
 
@@ -103,7 +97,7 @@ class AdminController extends Controller
         return $this->render('admin/files', $params);
     }
 
-    //verify, unverify and delete
+    //verify, unverify
     public function verifyFiles(Request $request)
     {
         $data = $request->getBody();
