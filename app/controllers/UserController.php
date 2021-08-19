@@ -7,156 +7,16 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 use app\app\models\User;
+use app\utils\middlewares\AuthMiddleware;
 
-class   UserController extends Controller
+class UserController extends Controller
 {
-    public ?array $requests;
-
-    public function index(Request $request)
+    public function __construct($action = '')
     {
-        $this->requests = $request->getBody();
+        $this->action = $action;
 
-        if (
-            (($this->path == '/user/register') ||
-                ($this->path == '/register')) &&
-            ($this->method == 'get')
-        )
-            $this->action = 'showRegisterForm';
-
-        elseif (
-            (($this->path == '/user/register') ||
-                ($this->path == '/register')) &&
-            ($this->method == 'post')
-        )
-            $this->action = 'register';
-
-        elseif (
-            (($this->path == '/user/login') ||
-                ($this->path == '/login')) &&
-            ($this->method == 'get')
-        )
-            $this->action = 'showLoginForm';
-
-        elseif (
-            (($this->path == '/user/login') ||
-                ($this->path == '/login')) &&
-            ($this->method == 'post')
-        )
-            $this->action = 'login';
-
-        elseif (
-            (($this->path == '/user/logout') ||
-                ($this->path == '/logout')) &&
-            ($this->method == 'get')
-        )
-            $this->action = 'logout';
-
-        elseif (
-            (($this->path == '/user') ||
-                ($this->path == '/user/dashboard')) &&
-            ($this->method == 'get')
-        )
-            $this->action = 'showUserDashboardPage';
-
-        elseif ((($this->path == '/user/profile') && ($this->method == 'get')))
-            $this->action = 'showProfilePage';
-
-        elseif ((($this->path == '/user/profile') && ($this->method == 'post')))
-            $this->action = 'editProfile';
-
-        elseif ((($this->path == '/user/files') && ($this->method == 'get')))
-            $this->action = 'showFilesPage';
-
-        elseif ((($this->path == '/user/trades') && ($this->method == 'get')))
-            $this->action = 'showTradesPage';
-
-        elseif (
-            preg_match("/(\/user\/)\w+/", $this->path)
-        ) {
-            $this->input = substr($this->path, strrpos($this->path, '/') + 1);
-
-            $this->action = 'showPublicUserProfile';
-        }
-
-        return call_user_func([__CLASS__, $this->action], $this->path);
-    }
-
-    public function showRegisterForm()
-    {
-        if ($this->is_login()) {
-            $this->redirect('/');
-            return;
-        }
-
-        return $this->render('register');
-    }
-
-    public function register()
-    {
-        $data = $this->requests;
-
-        $data['type'] = 3;
-
-        $user = new User();
-        $user->loadData($data);
-
-        if ($user->insert()) {
-            $this->setSession('id', $user->lastInsertID());
-            $this->setSession('username', $data['username']);
-            $this->setSession('name', $data['name']);
-            $this->setSession('email', $data['email']);
-            $this->setSession('num_files', $data['num_files']);
-            $this->setSession('type', $data['type']);
-            $this->setSession('credit', $data['credit']);
-
-            $this->redirect('/');
-        }
-    }
-
-    public function showLoginForm()
-    {
-        if ($this->is_login()) {
-            $this->redirect('/');
-            return;
-        }
-
-        return $this->render('login');
-    }
-
-    public function login()
-    {
-        $data = $this->requests;
-        $data['password'] = sha1($data['password']);
-
-        $user = new User();
-        $user->loadData($data);
-
-        if ($data = $user->findOne($data)) {
-            $this->setSession('id', $data[0]['id']);
-            $this->setSession('username', $data[0]['username']);
-            $this->setSession('name', $data[0]['name']);
-            $this->setSession('email', $data[0]['email']);
-            $this->setSession('num_files', $data[0]['num_files']);
-            $this->setSession('type', $data[0]['type']);
-            $this->setSession('credit', $data[0]['credit']);
-
-            $this->redirect('/');
-
-            return 'Login successfully';
-        } else {
-            return $this->render("login", ["message" => "Login Failed!"]);
-        }
-    }
-
-    public function logout()
-    {
-        Application::$app->session->destroy();
-        $this->redirect('/');
-    }
-
-    public function is_login()
-    {
-        return Application::$app->user->is_login();
+        $this->registerMiddleware(new AuthMiddleware($this->action));
+        $this->setLayout('user');
     }
 
     public function provideUserProfileRoutes()
@@ -168,7 +28,7 @@ class   UserController extends Controller
         for ($i = 0; $i < $user->count(); $i++) {
             $username = $users[$i]['username'];
             $username = strtolower($username);
-            Application::$app->router->routing("/user/$username", self::class);
+            Application::$app->router->get("/user/$username", self::class);
         }
     }
 
@@ -221,11 +81,11 @@ class   UserController extends Controller
         return $this->render('user/profile', $params);
     }
 
-    public function editProfile()
+    public function editProfile(Request $request)
     {
         $this->setLayout('user');
 
-        $data = $this->requests;
+        $data = $request->getBody();
 
         $data['password'] = sha1($data['password']);
 
