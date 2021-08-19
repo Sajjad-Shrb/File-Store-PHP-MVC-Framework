@@ -33,7 +33,7 @@ class User extends Model
         return parent::insert();
     }
 
-    public function findAllbyUsername()
+    public function selectUserName()
     {
         $tableName = static::tableName();
 
