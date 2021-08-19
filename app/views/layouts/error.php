@@ -215,7 +215,6 @@
 
 <body>
     <h1>{{status_code}} {{status_message}}</h1>
-    <p class="zoom-area"><b>{{status_code}}</b> {{status_message}} </p>
     <section class="error-container">
         <span>4</span>
         <span><span class="screen-reader-text">0</span></span>
