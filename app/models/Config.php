@@ -2,7 +2,6 @@
 
 namespace app\app\models;
 
-use app\core\Application;
 use app\core\Model;
 
 class Config extends Model
