@@ -11,7 +11,6 @@ class File extends Model
     protected int $buyer_id = 0;
     protected int $seller_id = 0;
 
-    //TODO: date type
     protected string $date;
 
     public static function tableName(): string
