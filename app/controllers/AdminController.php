@@ -4,37 +4,25 @@ namespace app\app\controllers;
 
 use app\app\models\User;
 use app\app\models\Config;
+use app\app\models\File;
 use app\core\Controller;
 use app\core\Request;
+use app\utils\middlewares\AuthMiddleware;
 
 class AdminController extends Controller
 {
-    public ?array $requests;
-
-    public function index(Request $request)
+    public function __construct($action)
     {
+        $this->action = $action;
+
+        $this->registerMiddleware(new AuthMiddleware($this->action));
         $this->setLayout('admin');
-
-        $this->requests = $request->getBody();
-
-        if ($this->path == '/admin' && $this->method == 'get')
-            $this->action = 'showAdminDashboardPage';
-        elseif ($this->path == '/admin' && $this->method == 'post')
-            $this->action = 'admin';
-        elseif ($this->path == '/admin/users' && $this->method == 'get')
-            $this->action = 'showManageUsersPage';
-        elseif ($this->path == '/admin/users' && $this->method == 'post')
-            $this->action = 'update';
-        elseif ($this->path == '/admin/setting' && $this->method == 'get')
-            $this->action = 'showSettingPage';
-        elseif ($this->path == '/admin/setting' && $this->method == 'post')
-            $this->action = 'config';
-            
-        return call_user_func([__CLASS__, $this->action]);
     }
 
     public function showAdminDashboardPage()
     {
+        $this->setLayout('admin');
+ 
         return $this->render('admin/dashboard');
     }
 
@@ -46,20 +34,23 @@ class AdminController extends Controller
             'users' => $user->findAll(),
             'user_count' => $user->count()
         ];
+
         return $this->render('admin/users', $params);
     }
 
     //Active, Deactive and ChangeAccessLevel
-    public function update()
+    public function updateUsers(Request $request)
     {
-        $data = $this->requests;
+        $data = $request->getBody();
 
         $where = [
             'id' => intval($data['id'])
         ];
+    
         unset($data['id']);
+        unset($data['_method']);
 
-        $user = new User();
+        $user = new User(); 
 
         $user->update($data, $where);
         return $this->showManageUsersPage();
@@ -75,24 +66,76 @@ class AdminController extends Controller
         return $this->render('admin/setting', $params);
     }
 
-    public function config()
+    public function config(Request $request)
     {
         /**
          * //TODO: Generate Invalid Data request (key_name == allowed_file_types)
          */
-        $data = $this->requests; 
+        $data = $request->getBody();
 
         $where = [
             'key_name' => "\"" . $data['key_name'] . "\""
         ];
 
         unset($data['key_name']);
+        unset($data['_method']);
         
         $data['value'] = json_encode($data['value']);
+
+        echo($data['value']);
+        // exit;
 
         $config = new Config();
 
         $config->update($data, $where);
         return $this->showSettingPage();
+    }
+
+    public function showFilesPage()
+    {
+        $file = new File;
+        $params = [
+            'file' => $file,
+            'files' => $file->findAll(),
+            'file_count' => $file->count()
+        ];
+        
+        return $this->render('admin/files', $params);
+    }
+
+    //verify, unverify and delete
+    public function verifyFiles(Request $request)
+    {
+        $data = $request->getBody();
+
+        $file = new File();
+        $where = [
+            'id' => intval($data['id'])
+        ];
+        
+        unset($data['id']);
+
+        unset($data['_method']);
+
+        $file->update($data, $where);
+        return $this->showFilesPage();
+        
+    }
+
+    public function deleteFiles(Request $request)
+    {
+        $data = $request->getBody();
+
+        $file = new File();
+        $where = [
+            'id' => intval($data['id'])
+        ];
+        
+        unset($data['id']);
+        
+        unset($data['_method']);
+        
+        $file->delete($where);
+        return $this->showFilesPage();
     }
 }
