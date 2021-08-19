@@ -33,7 +33,6 @@ class User extends Model
         return parent::insert();
     }
 
-    //TODO: convert findAll method to findAll($columns)
     public function findAllbyUsername()
     {
         $tableName = static::tableName();
@@ -46,7 +45,6 @@ class User extends Model
         return $result;
     }
 
-    //TODO: where is_login() ?
     public function is_login(): bool
     {
         return Application::$app->session->get('id');
