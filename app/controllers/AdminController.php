@@ -31,7 +31,7 @@ class AdminController extends Controller
         $user = new User;
         $params = [
             'user' => $user,
-            'users' => $user->findAll(),
+            'users' => $user->selectAll(),
             'user_count' => $user->count()
         ];
 
@@ -60,7 +60,7 @@ class AdminController extends Controller
     {
         $config = new Config;
         $params = [
-            'rows' => $config->findAll(),
+            'rows' => $config->selectAll(),
             'rows_count' => $config->count()
         ];
         return $this->render('admin/setting', $params);
@@ -90,7 +90,7 @@ class AdminController extends Controller
         $file = new File;
         $params = [
             'file' => $file,
-            'files' => $file->findAll(),
+            'files' => $file->selectAll(),
             'file_count' => $file->count()
         ];
         
