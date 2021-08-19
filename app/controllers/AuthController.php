@@ -67,7 +67,7 @@ class AuthController extends Controller
         $user = new User();
         $user->loadData($data);
 
-        if ($data = $user->findOne($data)) {
+        if ($data = $user->selectAllWhere($data)) {
             $this->setSession('id', $data[0]['id']);
             $this->setSession('username', $data[0]['username']);
             $this->setSession('name', $data[0]['name']);
