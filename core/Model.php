@@ -64,12 +64,25 @@ abstract class Model
 
         $set = array();
         $wheres = array();
+
+        function isJson($string) {
+            json_decode($string);
+            return json_last_error() === JSON_ERROR_NONE;
+         }
+
+
         foreach ($fields as $key => $value) {
-            $set[] = $key . " = " . "'$value'";
+            if(is_numeric($value) || isJson($value))
+                $set[] = $key . " = " . "$value";
+            else
+                $set[] = $key . " = " . "'$value'";
         }
 
         foreach ($where as $key => $value) {
-            $wheres[] = $key . " = " . "'$value'";
+            if(is_numeric($value) || isJson($value))
+                $wheres[] = $key . " = " . "$value";
+            else
+                $wheres[] = $key . " = " . "'$value'";
         }
 
         $statement = $this->pdo->prepare("UPDATE $tableName " . "SET " . implode(", ", $set) . " WHERE ". implode(", ", $wheres) . ";");
