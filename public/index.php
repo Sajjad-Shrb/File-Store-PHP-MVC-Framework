@@ -11,8 +11,6 @@ require "../vendor/autoload.php";
 
 $app = new Application(dirname(__DIR__));
 
-//TODO: Use root path
-
 $app->router->get("/", [HomeController::class, 'index']);
 $app->router->get("/home", [HomeController::class, 'index']);
 $app->router->get("/index", [HomeController::class, 'index']);

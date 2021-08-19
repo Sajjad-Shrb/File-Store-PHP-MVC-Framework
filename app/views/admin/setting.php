@@ -1,11 +1,3 @@
-<?php 
-
-	// echo "<pre>";
-	// var_dump($rows);	
-	// echo "</pre>";
-?>
-
-
 <style>
 	body {
 		margin-left: 70px;
@@ -35,22 +27,22 @@
 							<?php echo $rows[$i]['name']; ?>
 						</td>
 						<td>
-							<?php 
-								switch ($rows[$i]['key_name']) {
-									case 'life_time':
-										$value = $rows[$i]['value'] . ' ثانیه';
-										break;
-									case 'max_size':
-										$value = $rows[$i]['value'] . ' مگابایت';
-										break;
-									default:
-										$value = $rows[$i]['value'];
-										break;
-								}
+							<?php
+							switch ($rows[$i]['key_name']) {
+								case 'life_time':
+									$value = $rows[$i]['value'] . ' ثانیه';
+									break;
+								case 'max_size':
+									$value = $rows[$i]['value'] . ' مگابایت';
+									break;
+								default:
+									$value = $rows[$i]['value'];
+									break;
+							}
 							?>
 							<?php echo $value; ?>
 							<br>
-								
+
 							<p style="margin-top: 8px !important;">
 								<button type="button" value="ویرایش" style="background: none; border: none; color: blue;text-decoration: none; cursor: pointer;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#<?php echo $rows[$i]['key_name']; ?>">ویرایش</button>
 							</p>
@@ -64,10 +56,10 @@
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-												<div class="mb-3">
-													<label for="recipient" class="col-form-label">لطفا مقدار را وارد کنید:</label>
-													<input type="text" class="form-control" id="recipient" name="value" placeholder="<?php echo $rows[$i]['value']; ?>">
-												</div>
+											<div class="mb-3">
+												<label for="recipient" class="col-form-label">لطفا مقدار را وارد کنید:</label>
+												<input type="text" class="form-control" id="recipient" name="value" placeholder="<?php echo $rows[$i]['value']; ?>">
+											</div>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>

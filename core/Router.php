@@ -2,8 +2,6 @@
 
 namespace app\core;
 
-use Exception;
-
 class Router
 {
     private Request $request;

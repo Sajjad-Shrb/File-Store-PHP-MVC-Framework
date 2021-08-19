@@ -90,7 +90,7 @@
 								<div class="profile-info-name"> وضعیت </div>
 
 								<div class="profile-info-value">
-									<span> <?php echo ($user	['is_active']) ? 'فعال' : 'غیرفعال'; ?></span>
+									<span> <?php echo ($user['is_active']) ? 'فعال' : 'غیرفعال'; ?></span>
 								</div>
 							</div>
 							<div class="profile-info-row">

@@ -28,9 +28,6 @@ class View
         
         if (Application::$app->controller)
             $layout = Application::$app->controller->layout;
-        
-        // var_dump(Application::$app->controller);
-        // exit;
 
         $view = $this->loadView($view, $params);       
         $layout = $this->loadLayout($layout);

@@ -37,7 +37,7 @@
 
 								<div class="form-group">
 									<label for=pass>New Password</label>
-									<input name="password" type="password" class="form-control" id="pass" >
+									<input name="password" type="password" class="form-control" id="pass">
 								</div>
 
 								<div class="row mt-5">

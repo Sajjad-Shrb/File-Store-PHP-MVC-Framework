@@ -6,8 +6,6 @@ use app\utils\middlewares\AuthMiddleware;
 
 class Controller
 {
-    //TODO: define Other Layouts
-    //TODO: middle wears
     public string $layout = 'main';
     public string $input = '';
     public string $action = '';
@@ -19,11 +17,6 @@ class Controller
     public function __construct()
     {
         Application::$app->controller = $this;
-    }
-
-    public function checkMethod()
-    {
-        ///////TODO: checkMethod Implement//////
     }
 
     public function setLayout($layout): void

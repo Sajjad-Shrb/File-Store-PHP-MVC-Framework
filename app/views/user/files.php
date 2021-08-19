@@ -6,7 +6,7 @@
 				<th scope="col">نام فایل</th>
 				<th scope="col">نوع فایل</th>
 				<th scope="col">پسوند</th>
-				<th scope="col">حجم</th>	
+				<th scope="col">حجم</th>
 				<th scope="col">لینک</th>
 				<th scope="col">قیمت</th>
 				<th scope="col">تعداد دانلود</th>

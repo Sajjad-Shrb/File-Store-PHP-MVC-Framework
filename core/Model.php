@@ -4,13 +4,6 @@ namespace app\core;
 
 abstract class Model
 {
-    //TODO: name => Label
-    //TODO: Error Handling
-
-
-    //TODO: convert pdo to prepare func
-    //TODO: function signitures
-
     public \PDO $pdo;
 
     public function __construct()
@@ -105,8 +98,6 @@ abstract class Model
         return $statement->execute();
     }
 
-    //TODO: Hamahangi pdo methods
-    //TODO: tartibe tavabe
     public function findAll()
     {
         $tableName = static::tableName();
