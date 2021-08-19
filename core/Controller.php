@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\utils\middlewares\AuthMiddleware;
+
 class Controller
 {
     //TODO: define Other Layouts
@@ -12,10 +14,10 @@ class Controller
     public string $path = '';
     public string $method = '';
 
+    protected array $middlewares = [];
+
     public function __construct()
     {
-        ///////TODO: checkMethod Call//////
-
         Application::$app->controller = $this;
     }
 
@@ -27,6 +29,7 @@ class Controller
     public function setLayout($layout): void
     {
         $this->layout = $layout;
+        Application::$app->controller = $this;
     }
     
     public function loadView($view, $params = []): string
@@ -52,5 +55,15 @@ class Controller
     public function redirect($url)
     {
         return Application::$app->response->redirect($url);
+    }
+
+    public function registerMiddleware(AuthMiddleware $middleware)
+    {
+        $this->middlewares[] = $middleware;
+    }
+
+    public function getMiddlewares(): array
+    {
+        return $this->middlewares;
     }
 }
