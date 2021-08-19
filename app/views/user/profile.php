@@ -19,6 +19,7 @@
 					<div class="col-md-9">
 						<div class="container">
 							<form action="" method="POST">
+								<input type="hidden" name="_method" value="put">
 								<div class="form-group">
 									<label for=fullName>Full Name</label>
 									<input name="name" type="text" class="form-control" id="fullName" placeholder="<?php echo $user['name'] ?>">
