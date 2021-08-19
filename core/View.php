@@ -7,7 +7,7 @@ class View
     public function loadLayout($layout)
     {
         ob_start();
-        include_once Application::$root_dir."/app/views/layouts/$layout.php";
+        include_once Application::$ROOT_DIR."/app/views/layouts/$layout.php";
         return ob_get_clean();
     }
     
@@ -17,17 +17,20 @@ class View
         extract($params);
         
         ob_start();
-        include Application::$root_dir."/app/views/$view.php";
+        include Application::$ROOT_DIR."/app/views/$view.php";
         return ob_get_clean();
     }
 
-    public function render($view, array $params)
+    public function render($view, array $params = [])
     {
 
         $layout = Application::$app->layout;
         
         if (Application::$app->controller)
             $layout = Application::$app->controller->layout;
+        
+        // var_dump(Application::$app->controller);
+        // exit;
 
         $view = $this->loadView($view, $params);       
         $layout = $this->loadLayout($layout);
