@@ -19,9 +19,9 @@
 			<?php for ($i = 0; $i < $user_count; $i++) { ?>
 				<tr>
 					<form action="/admin/users" method="post">
+						<input type="hidden" name="_method" value="put">
 						<input type="hidden" name="id" value="<?php echo $users[$i]['id']; ?>" />
 						<th scope="row">
-							<input type="hidden" name="id" value="<?php echo $users[$i]['id']; ?>">
 							<?php echo $users[$i]['id']; ?>
 						</th>
 						<td>
