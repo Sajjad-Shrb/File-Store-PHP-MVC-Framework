@@ -32,6 +32,8 @@ class AuthController extends Controller
         $data = $request->getBody();
 
         $data['type'] = 3;
+        $data['num_files'] = 0;
+        $data['credit'] = 0;
 
         $user = new User();
         $user->loadData($data);
