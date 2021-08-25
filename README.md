@@ -1,6 +1,6 @@
 # PHP MVC framework
 
-This is an **Upload-center project** via **PHP MVC** for **educational purposes**.
+This is an **Upload-center project** via **PHP MVC** created for **educational purposes**.
 
 ## Installation
 1.  Download the archive or clone the project using git
