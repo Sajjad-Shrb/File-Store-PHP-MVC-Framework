@@ -64,8 +64,7 @@ class AuthMiddleware
         'login',
     ];
 
-    public function __construct($action)
-    showPublicUserProfile {
+    public function __construct($action) {
         $this->action = $action;
     }
 
