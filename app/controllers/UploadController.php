@@ -35,8 +35,6 @@ class UploadController extends Controller
                 $dirpath = "uploads/$username/";
             }
 
-            
-
             if(!is_dir($dirpath))
                 mkdir($dirpath, 0777, true);
             
@@ -55,21 +53,23 @@ class UploadController extends Controller
 
             if (move_uploaded_file($tmpname, $filepath)) {
                 echo "The file " . $filename . " has been uploaded";
+                $data = [
+                    'username' => $username,
+                    'name' => $filename,
+                    'type' => $filetype,
+                    'extension' => $file_extension,
+                    'size' => $filesize,
+                    'path' => $filepath,
+                    'url' => $url
+                ];
+    
+                $file->loadData($data);
+
+                return true;
             } else {
                 echo "There was an error uploading the file, please try again!";
+                return false;
             }
-
-            $data = [
-                'username' => $username,
-                'name' => $filename,
-                'type' => $filetype,
-                'extension' => $file_extension,
-                'size' => $filesize,
-                'path' => $filepath,
-                'url' => $url
-            ];
-
-            $file->loadData($data);
         }
     }
 
@@ -77,9 +77,8 @@ class UploadController extends Controller
     {
         $file = new File();
         
-        $this->addFileToServer($file);
-        
-        $file->insert();
+        if($this->addFileToServer($file))
+            $file->insert();
         
         return $this->render('upload');
     }
