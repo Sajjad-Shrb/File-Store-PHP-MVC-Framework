@@ -28,13 +28,18 @@ class UserController extends Controller
         for ($i = 0; $i < $user->count(); $i++) {
             $username = $users[$i]['username'];
             $username = strtolower($username);
-            Application::$app->router->get("/user/$username", self::class);
+            Application::$app->router->get("/user/$username", [self::class, 'showPublicUserProfile']);
         }
     }
 
-    public function showPublicUserProfile($username)
+    public function showPublicUserProfile(Request $request)
     {
+        $this->setLayout('main');
+
+        $username = $request->getPath();
+
         $user = new User;
+
         $where = [
             'username' => substr($username, strrpos($username, '/') + 1)
         ];
@@ -88,6 +93,7 @@ class UserController extends Controller
         $data = $request->getBody();
 
         $data['password'] = sha1($data['password']);
+        unset($data['_method']);
 
         $previousUsername = Application::$app->session->get('username');
 
