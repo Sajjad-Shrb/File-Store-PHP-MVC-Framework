@@ -58,15 +58,20 @@ abstract class Model
         $set = array();
         $wheres = array();
 
+        function isJson($string) {
+            json_decode($string);
+            return json_last_error() === JSON_ERROR_NONE;
+         }
+
         foreach ($fields as $key => $value) {
-            if(is_numeric($value))
+            if(is_numeric($value) || isJson($value))
                 $set[] = $key . " = " . "$value";
             else
                 $set[] = $key . " = " . "'$value'";
         }
 
         foreach ($where as $key => $value) {
-            if(is_numeric($value))
+            if(is_numeric($value) || isJson($value))
                 $wheres[] = $key . " = " . "$value";
             else
                 $wheres[] = $key . " = " . "'$value'";
