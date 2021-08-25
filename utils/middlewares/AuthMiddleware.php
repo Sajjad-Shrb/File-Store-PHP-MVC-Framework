@@ -36,6 +36,10 @@ class AuthMiddleware
         'showProfilePage',
         'editProfile',
         'showFilesPage',
+        'showRegisterForm',
+        'register',
+        'showLoginForm',
+        'login',
         'logout'
     ];
 
@@ -45,6 +49,10 @@ class AuthMiddleware
         'showProfilePage',
         'editProfile',
         'showFilesPage',
+        'showRegisterForm',
+        'register',
+        'showLoginForm',
+        'login',
         'logout'
     ];
 
@@ -57,7 +65,7 @@ class AuthMiddleware
     ];
 
     public function __construct($action)
-    {
+    showPublicUserProfile {
         $this->action = $action;
     }
 
