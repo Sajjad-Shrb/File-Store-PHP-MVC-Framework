@@ -1,4 +1,5 @@
 vendor
 uploads
+composer.lock
 test.html
 test.php
